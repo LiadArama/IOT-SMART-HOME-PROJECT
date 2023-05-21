@@ -1,0 +1,4 @@
+BUTTON - pr/home/Garage_Indicator/sts
+RELAY - pr/home/4188341/sts
+temperature - pr/home/Garage_Indicator/6317522/sts
+warning-topic - pr/home/Garage_Indicator/warning
