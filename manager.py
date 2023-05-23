@@ -5,7 +5,9 @@ import random
 from mqtt_init import *
 from icecream import ic
 from datetime import datetime
-
+import db_connector
+from db_connector import c
+from db_connector import conn
 
 def time_format():
     return f'{datetime.now()}  Manager|> '
@@ -33,6 +35,7 @@ def on_disconnect(client, userdata, flags, rc=0):
 
 
 def on_message(client, userdata, msg):
+    idx = 1
     topic = msg.topic
     m_decode = str(msg.payload.decode("utf-8", "ignore"))
     ic("message from: " + topic, m_decode)
@@ -42,6 +45,12 @@ def on_message(client, userdata, msg):
     if temperature >= temperature_warning or humidity >= humidity_warning:
         ic("WARNING: Humidity/Temperature Warning! Please Handle Garage condition!")
         send_msg(client, warning_topic, "WARNING: Humidity/Temperature Warning! Please Handle Garage condition!" + m_decode)
+        c.execute(f'''INSERT INTO alerts (alert_id, alert) 
+                           VALUES 
+                           ({idx},{datetime.now()})
+                           
+         ''')
+        conn.commit()
 
 
 
@@ -64,6 +73,12 @@ def client_init(cname):
         client.username_pw_set(username, password)
     ic("Connecting to broker ", broker_ip)
     client.connect(broker_ip, int(port))  # connect to broker
+    c.execute('''INSERT INTO device (device_id, client_name) 
+                       VALUES 
+                       (1, liad_garage)
+                       (2, liad_main)
+    ''')
+    conn.commit()
     return client
 
 

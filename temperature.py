@@ -2,7 +2,6 @@ import os
 import sys
 import PyQt5
 import random
-
 import self as self
 from PyQt5 import QtGui, QtCore, QtWidgets
 from PyQt5.QtWidgets import *
@@ -13,6 +12,7 @@ import time
 import datetime
 from mqtt_init import *
 import manager
+
 
 # Creating Client name - should be unique
 global clientname, CONNECTED, temperature_, humidity_
